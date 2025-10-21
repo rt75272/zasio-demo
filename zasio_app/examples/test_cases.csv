@@ -1,0 +1,11 @@
+Record_ID,Category,Retention_Years,Owner
+2001,Contracts,7,Legal
+2002,Invoices,3,Finance
+2003,HR Files,5,HR
+2004,,10,Compliance
+2005,Marketing,not_a_number,Marketing
+,IT Logs,1,IT
+2007,International,10,Legal – Data Privacy Team
+2008, R&D , 2 ,Engineering
+2009,Sales,0,Sales
+2010,Facilities,15,

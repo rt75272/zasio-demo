@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Upload CSV · Zasio Demo{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white d-flex align-items-center justify-content-between">
+        <strong>Upload Retention Schedule CSV</strong>
+        <a class="btn btn-sm btn-outline-secondary" href="/">Back</a>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">Required columns: <code>Record_ID</code>, <code>Category</code>, <code>Retention_Years</code>, <code>Owner</code>.</p>
+        <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="file" class="form-label">Choose a CSV file</label>
+            <input class="form-control" id="file" type="file" name="file" accept=".csv" required>
+            <div class="invalid-feedback">Please select a .csv file.</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Upload &amp; Validate</button>
+            <a class="btn btn-outline-secondary" href="{{ url_for('static', filename='') }}" onclick="return false" data-bs-toggle="collapse" data-bs-target="#samples">Show Samples</a>
+          </div>
+        </form>
+        <div id="samples" class="collapse mt-3 small">
+          <div>Sample files on disk (you can open them to review):</div>
+          <ul class="mt-2">
+            <li><code>zasio_app/examples/sample.csv</code></li>
+            <li><code>zasio_app/examples/test_cases.csv</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Bootstrap client-side validation UX
+  (() => {
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+
+{% endblock %}

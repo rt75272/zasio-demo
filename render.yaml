@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: zasio-demo
+    runtime: python
+    buildCommand: pip install -r zasio_app/requirements.txt
+    startCommand: gunicorn zasio_app.app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0

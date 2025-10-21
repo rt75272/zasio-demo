@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Results · Zasio Demo{% endblock %}
+{% block content %}
+
+<div class="row gy-3">
+  <div class="col-12 col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Summary</h5>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-muted">Valid records</span>
+          <span class="badge bg-success rounded-pill fs-6">{{ valid_records|length }}</span>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted">Errors</span>
+          <span class="badge bg-danger rounded-pill fs-6">{{ errors|length }}</span>
+        </div>
+        <hr>
+        <div class="small text-muted">
+          <div class="mb-1"><strong>File:</strong> {{ file_name or 'uploaded.csv' }}</div>
+          <div class="mb-1"><strong>Rows (excluding header):</strong> {{ total_rows }}</div>
+          {% if raw_headers %}
+          <div><strong>Columns:</strong> {{ raw_headers|join(', ') }}</div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="card-footer bg-white d-flex gap-2">
+        <a href="/upload" class="btn btn-primary">Validate another</a>
+        <a href="/" class="btn btn-outline-secondary">Back to Plan</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-8">
+    {% if raw_rows and raw_headers %}
+      <div class="card shadow-sm mb-3">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <strong>Raw Upload Preview</strong>
+          <span class="text-muted small">Showing up to {{ preview_limit }} rows</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                {% for h in raw_headers %}
+                  <th>{{ h }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in raw_rows %}
+                <tr>
+                  {% for h in raw_headers %}
+                    <td>{{ r.get(h, '') }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if total_rows > raw_rows|length %}
+          <div class="card-footer bg-white text-muted small">{{ total_rows - raw_rows|length }} more rows not shown.</div>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if errors %}
+      <div class="card shadow-sm mb-3">
+        <div class="card-header bg-white"><strong>Errors</strong></div>
+        <ul class="list-group list-group-flush small">
+          {% for e in errors %}
+            <li class="list-group-item d-flex flex-column flex-md-row gap-2">
+              <span class="text-danger">{{ e['Error'] }}</span>
+              <code class="flex-fill">{{ e['Record'] }}</code>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="alert alert-success">No errors found 🎉</div>
+    {% endif %}
+
+    {% if valid_records %}
+      <div class="card shadow-sm">
+        <div class="card-header bg-white"><strong>Valid Records ({{ valid_records|length }})</strong></div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Record_ID</th>
+                <th>Category</th>
+                <th>Retention_Years</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in valid_records %}
+                <tr>
+                  <td><code>{{ r['Record_ID'] }}</code></td>
+                  <td>{{ r['Category'] }}</td>
+                  <td>{{ r['Retention_Years'] }}</td>
+                  <td>{{ r['Owner'] }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

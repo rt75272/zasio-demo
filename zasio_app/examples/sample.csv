@@ -1,0 +1,6 @@
+Record_ID,Category,Retention_Years,Owner
+1001,Contracts,7,Legal
+1002,Invoices,3,Finance
+1003,HR Files,5,HR
+1004,,10,Compliance
+1005,Marketing,not_a_number,Marketing
