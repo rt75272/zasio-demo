@@ -12,11 +12,7 @@ except (ImportError, ValueError):
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         file = request.files.get('file')
@@ -54,6 +50,11 @@ def upload():
             valid_records=valid_records,
             errors=errors,
         )
+    return render_template('upload.html')
+
+# Optional: keep old path working by redirecting to root
+@app.route('/upload', methods=['GET'])
+def upload_redirect():
     return render_template('upload.html')
 
 if __name__ == '__main__':
