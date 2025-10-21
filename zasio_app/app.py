@@ -52,10 +52,10 @@ def upload():
         )
     return render_template('upload.html')
 
-# Optional: keep old path working by redirecting to root
-@app.route('/upload', methods=['GET'])
-def upload_redirect():
-    return render_template('upload.html')
+# Keep old path working; support POST too and reuse same logic
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_alias():
+    return upload()
 
 if __name__ == '__main__':
     app.run(debug=True)
